@@ -1,73 +1,44 @@
+import 'package:debate/news/news.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:flutter/services.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'package:debate/theme/theme.dart' as theme;
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+void main() async {
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData
-      (
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent,systemNavigationBarColor: theme.backgroundColor));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+    .then((_) {
+      runApp(const Main());
     });
-  }
+}
+
+class Main extends StatefulWidget {
+  const Main({super.key});
 
   @override
+  State<Main> createState() => _MainState();
+}
+
+class _MainState extends State<Main> {
+  @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
-      appBar: AppBar(
-        
-        title: Text(widget.title),
-      ),
-      body: Center(
-    
-        child: Column(
-          
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return MaterialApp
+    (
+       debugShowCheckedModeBanner: false,
+        title: 'LifeHome Connect',
+        theme: ThemeData
+        (
+          scaffoldBackgroundColor: theme.backgroundColor
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+        home: News(),
     );
   }
 }
