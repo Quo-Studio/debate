@@ -80,7 +80,7 @@ class _MainState extends State<Main> {
           builder: ((context) {
             return MediaQuery
             (
-              child: const Home(),
+              child: const News(),
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
           }),
