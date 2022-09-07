@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "905352162696",
+    "project_id": "debate-workshop",
+    "storage_bucket": "debate-workshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905352162696:android:98275a53c4908938f45e3d",
+        "android_client_info": {
+          "package_name": "com.example.debate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905352162696-kka9vjaq92h1qcbjpju5m7c15t74n5a4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVB2HdHRtsRk6nBXQZ0yfTNm1yUJqhEcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905352162696-kka9vjaq92h1qcbjpju5m7c15t74n5a4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905352162696:android:6abdd6433a42a343f45e3d",
+        "android_client_info": {
+          "package_name": "com.workshop.debate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905352162696-kka9vjaq92h1qcbjpju5m7c15t74n5a4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVB2HdHRtsRk6nBXQZ0yfTNm1yUJqhEcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905352162696-kka9vjaq92h1qcbjpju5m7c15t74n5a4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
