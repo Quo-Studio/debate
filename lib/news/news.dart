@@ -1,3 +1,4 @@
+import 'package:debate/profile.dart';
 import 'package:debate/script/newsController.dart';
 import 'package:flutter/material.dart';
 import 'package:debate/theme/theme.dart' as theme;
@@ -177,7 +178,11 @@ class _JudgementCardState extends State<JudgementCard> {
                           const SizedBox(width: 12,),
                           SizedBox(width: 30, height: 30, child: Image.network(widget.author_data['profile_url'], fit: BoxFit.fill)),
                           const SizedBox(width: 12,),
-                          Text(widget.author_data['surname'] + " " + widget.author_data['name'], style: theme.textCommentProfile,)
+                          GestureDetector
+                          (
+                            onTap: () {profilePopUp(context);},
+                            child: Text(widget.author_data['surname'] + " " + widget.author_data['name'], style: theme.textCommentProfile,),
+                          )
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -250,7 +255,12 @@ class _CommentCardState extends State<CommentCard> {
             const SizedBox(width: 12,),
             SizedBox(width: 30, height: 30, child: Image.network(widget.author_data['profile_url'], fit: BoxFit.fill)),
             const SizedBox(width: 12,),
-            Text(widget.author_data['surname'] + " " + widget.author_data['name'], style: theme.textCommentProfile,)
+            GestureDetector
+            (
+              onTap: () {profilePopUp(context);},
+              child: Text(widget.author_data['surname'] + " " + widget.author_data['name'], style: theme.textCommentProfile,),
+            )
+            
           ],
         ),
         const SizedBox(height: 12),

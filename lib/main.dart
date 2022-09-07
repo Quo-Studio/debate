@@ -13,34 +13,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:debate/theme/theme.dart' as theme;
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   account = AccountController();
-  if (await account.init())
-  {
-    
-  }
+  if (await account.init()) {}
 
   final db = FirebaseFirestore.instance;
 
   news = NewsController();
 
-   await db.collection("News").get()
-    .then((value) {
-      for (var doc in value.docs)
-      {
-        account.newsList.add(doc.data());
-      }
-    });
+  await db.collection("News").get().then((value) {
+    for (var doc in value.docs) {
+      account.newsList.add(doc.data());
+    }
+  });
 
   DocumentReference docRef = db.collection('News').doc('Dg7DrZeQTs3la6QPxpNL');
 
-  await docRef.get()
-  .then((value) async {
+  await docRef.get().then((value) async {
     Map data = {};
     data = value.data() as Map<String, dynamic>;
     news.setData(data, docRef);
@@ -48,11 +41,13 @@ void main() async {
 
   await news.getJudgements();
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent,systemNavigationBarColor: theme.backgroundColor));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: theme.backgroundColor));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-    .then((_) {
-      runApp(const Main());
-    });
+      .then((_) {
+    runApp(const Main());
+  });
 }
 
 class Main extends StatefulWidget {
@@ -65,41 +60,28 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
-
-    if (account.isConnected) 
-    {
+    if (account.isConnected) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'LifeHome Connect',
-        theme: ThemeData
-        (
-          scaffoldBackgroundColor: theme.backgroundColor
-        ),
-        home: Builder
-        (
+        theme: ThemeData(scaffoldBackgroundColor: theme.backgroundColor),
+        home: Builder(
           builder: ((context) {
-            return MediaQuery
-            (
-              child: const Home(),
+            return MediaQuery(
+              child: const News(),
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
           }),
         ),
       );
-
-      
-    }
-    else
-    {
+    } else {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'LifeHome Connect',
         theme: ThemeData(scaffoldBackgroundColor: theme.backgroundColor),
-        home: Builder
-        (
+        home: Builder(
           builder: ((context) {
-            return MediaQuery
-            (
+            return MediaQuery(
               child: const LoginScreen(),
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
