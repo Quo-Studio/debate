@@ -1,29 +1,11 @@
 import 'package:debate/profile.dart';
+import 'package:debate/script/accountController.dart';
 import 'package:flutter/material.dart';
+import 'package:debate/theme/theme.dart' as theme;
 
-void main() {
-  runApp(const Main());
-}
 
-class Main extends StatefulWidget {
-  const Main({super.key});
-
-  @override
-  State<Main> createState() => _MainState();
-}
-
-class _MainState extends State<Main> {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: AppBarApp(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class AppBarApp extends StatelessWidget {
-  const AppBarApp({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   void _navigateToNextScreen(BuildContext context) {
     Navigator.of(context)
@@ -32,7 +14,8 @@ class AppBarApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold
+    (
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -54,8 +37,14 @@ class AppBarApp extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Column(
+      body: SingleChildScrollView
+      (
+        child: SizedBox
+        (
+          width: theme.respWidth * 0.8,
+        
+        child : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               alignment: Alignment.topLeft,
@@ -65,16 +54,7 @@ class AppBarApp extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-            Column(
-              children: [
-                Row(
-                  children: const [
-                    createCard(),
-                    createCard(),
-                  ],
-                )
-              ],
-            ),
+            modulesGrid(),
             Center(
               child: ElevatedButton(
                 child: const Text('Test'),
@@ -233,14 +213,22 @@ class AppBarApp extends StatelessWidget {
           ],
         ),
       ),
+      )
     );
   }
 }
 
-// ignore: camel_case_types
-class createCard extends StatelessWidget {
-  const createCard({super.key});
 
+class Card extends StatefulWidget {
+  const Card({super.key, required this.data});
+
+  final Map data;
+
+  @override
+  State<Card> createState() => _CardState();
+}
+
+class _CardState extends State<Card> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -259,7 +247,6 @@ class createCard extends StatelessWidget {
         ),
         height: 220,
         width: 170,
-        margin: const EdgeInsets.only(left: 30, top: 40),
         child: Column(
           children: [
             const SizedBox(
@@ -285,4 +272,29 @@ class createCard extends StatelessWidget {
           ],
         ));
   }
+}
+
+
+
+Widget modulesGrid() {
+  List<Widget> modules = [];
+
+  for (var doc in account.newsList)
+  {
+    modules.add(Card(data:doc));
+  }
+
+    print(modules);
+
+  Widget grid = SizedBox
+  (
+    width: theme.respWidth * 0.8,
+    child: Wrap
+    (
+      spacing: theme.respWidth * 0.8 * 0.04,
+      runSpacing: theme.respWidth * 0.8 * 0.04,
+      children: modules,
+    ),
+  );
+  return grid;
 }

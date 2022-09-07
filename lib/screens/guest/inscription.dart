@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:debate/screens/guest/login.dart';
+import 'package:debate/script/accountController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:debate/theme/theme.dart' as theme;
@@ -11,6 +14,33 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  _registerPressed() async  {
+    if ( mailController.text != "" && passwordController.text != "" && confirmPasswordController.text != "" && surnameController.text.toUpperCase() != "" && nameController.text != "" ) {
+        if (passwordController.text == confirmPasswordController.text) {
+
+          Map<String, dynamic> formData = {
+            'karma' : 0,
+            'activity' : 0,
+            'fiability' : 0,
+            'name' : nameController.text,
+            'surname' : surnameController.text,
+            'profile_url' : "https://firebasestorage.googleapis.com/v0/b/debate-workshop.appspot.com/o/pp_placeholder.png?alt=media&token=156f503d-79d4-4b62-a826-522d1e46b7af",
+            'date' : Timestamp.now().millisecondsSinceEpoch
+          };
+          await account.registerNewUser(mailController.text, passwordController.text, formData);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+
+        }
+      }
+  }
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -59,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15.0),
-                          TextFormField(decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Nom', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
+                          TextFormField(controller: surnameController, decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Nom', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color.fromARGB(255, 218, 218, 218)),
                             borderRadius: BorderRadius.circular(6.0),
                           ))),
@@ -71,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15.0),
-                          TextFormField(decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Prénom', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
+                          TextFormField(controller: nameController, decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Prénom', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color.fromARGB(255, 218, 218, 218)),
                             borderRadius: BorderRadius.circular(6.0),
                           ))),
@@ -83,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15.0),
-                          TextFormField(decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Adresse E-Mail', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
+                          TextFormField(controller: mailController, decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Adresse E-Mail', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color.fromARGB(255, 218, 218, 218)),
                             borderRadius: BorderRadius.circular(6.0),
                           ))),
@@ -95,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15.0),
-                          TextFormField(decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Mot de passe', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
+                          TextFormField(controller: passwordController, decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Mot de passe', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color.fromARGB(255, 218, 218, 218)),
                             borderRadius: BorderRadius.circular(6.0),
                           ))),
@@ -107,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15.0),
-                          TextFormField(decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Confirmer mot de passe', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
+                          TextFormField(controller: confirmPasswordController, decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Confirmer mot de passe', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color.fromARGB(255, 218, 218, 218)),
                             borderRadius: BorderRadius.circular(6.0),
                           ))),
@@ -115,14 +145,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextButton
                           (
                             style: ButtonStyle(elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 20.0)), backgroundColor: MaterialStateProperty.all(theme.blueColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: theme.bRadiusCTA))),
-                            onPressed: () => print("yo"),
+                            onPressed: _registerPressed,
                             child: Center(child: Text("M'inscrire", style: theme.textAuthButton)),
                           ),          
                           SizedBox(height: 60.0),
                           TextButton
                           (
                             style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(theme.accentColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: theme.bRadiusCTA))),
-                            onPressed: () => print("yo"),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                            },
                             child: Center(child: Text("J'ai déjà un compte", style: theme.textStyleContent)),
                           ),  
                           SizedBox(height: 40.0),             
@@ -139,19 +171,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
         )));
   }
 }
-
-
-// import 'package:flutter/material.dart';
-// import 'package:debate/screens/guest/Auth.dart';
-
-// void main() => runApp(App());
-
-// class App extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'test',
-//       home: RegisterScreen(),
-//     );
-//   }
-// }

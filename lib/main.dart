@@ -1,4 +1,7 @@
+import 'package:debate/Home.dart';
 import 'package:debate/news/news.dart';
+import 'package:debate/screens/guest/login.dart';
+import 'package:debate/script/accountController.dart';
 import 'package:debate/script/newsController.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +19,23 @@ void main() async {
   options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  account = AccountController();
+  if (await account.init())
+  {
+    
+  }
+
   final db = FirebaseFirestore.instance;
 
   news = NewsController();
+
+   await db.collection("News").get()
+    .then((value) {
+      for (var doc in value.docs)
+      {
+        account.newsList.add(doc.data());
+      }
+    });
 
   DocumentReference docRef = db.collection('News').doc('Dg7DrZeQTs3la6QPxpNL');
 
@@ -48,15 +65,47 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp
-    (
-       debugShowCheckedModeBanner: false,
-        title: 'Debate',
+
+    if (account.isConnected) 
+    {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'LifeHome Connect',
         theme: ThemeData
         (
           scaffoldBackgroundColor: theme.backgroundColor
         ),
-        home: News(),
-    );
+        home: Builder
+        (
+          builder: ((context) {
+            return MediaQuery
+            (
+              child: const Home(),
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            );
+          }),
+        ),
+      );
+
+      
+    }
+    else
+    {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'LifeHome Connect',
+        theme: ThemeData(scaffoldBackgroundColor: theme.backgroundColor),
+        home: Builder
+        (
+          builder: ((context) {
+            return MediaQuery
+            (
+              child: const LoginScreen(),
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            );
+          }),
+        ),
+      );
+    }
   }
 }
