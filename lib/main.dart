@@ -82,7 +82,7 @@ class _MainState extends State<Main> {
         home: Builder(
           builder: ((context) {
             return MediaQuery(
-              child: const LoginScreen(),
+              child: const Home(),
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
           }),

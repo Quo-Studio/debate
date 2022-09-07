@@ -3,62 +3,56 @@ import 'package:debate/script/accountController.dart';
 import 'package:flutter/material.dart';
 import 'package:debate/theme/theme.dart' as theme;
 
-
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold
-    (
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/img_icon.png',
-              fit: BoxFit.contain,
-              height: 32,
+    theme.respWidth = MediaQuery.of(context).size.width;
+    theme.respHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            children: [
+              Image.asset(
+                'assets/img_icon.png',
+                fit: BoxFit.contain,
+                height: 32,
+              )
+            ],
+          ),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(IconData(0xee35, fontFamily: 'MaterialIcons')),
+              color: Colors.black,
+              iconSize: 38,
             )
           ],
         ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(IconData(0xee35, fontFamily: 'MaterialIcons')),
-            color: Colors.black,
-            iconSize: 38,
-          )
-        ],
-      ),
-      body: SingleChildScrollView
-      (
-        child: SizedBox
-        (
-          width: theme.respWidth * 0.8,
-        
-        child : Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(top: 40, left: 24),
-              child: const Text(
-                "Mes news aujourd'hui",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: const EdgeInsets.only(top: 40, left: 24),
+                  child: const Text(
+                    "Mes news aujourd'hui",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                modulesGrid(),
+              ],
             ),
-            modulesGrid(),
-           
-          ],
-        ),
-      ),
-      )
-    );
+          ),
+        ));
   }
 }
-
 
 class Card extends StatefulWidget {
   const Card({super.key, required this.data});
@@ -115,23 +109,18 @@ class _CardState extends State<Card> {
   }
 }
 
-
-
 Widget modulesGrid() {
   List<Widget> modules = [];
 
-  for (var doc in account.newsList)
-  {
-    modules.add(Card(data:doc));
+  for (var doc in account.newsList) {
+    modules.add(Card(data: doc));
   }
 
-    print(modules);
+  print(modules);
 
-  Widget grid = SizedBox
-  (
+  Widget grid = SizedBox(
     width: theme.respWidth * 0.8,
-    child: Wrap
-    (
+    child: Wrap(
       spacing: theme.respWidth * 0.8 * 0.04,
       runSpacing: theme.respWidth * 0.8 * 0.04,
       children: modules,
