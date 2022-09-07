@@ -1,8 +1,10 @@
 import 'package:debate/news/news.dart';
+import 'package:debate/script/newsController.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:debate/theme/theme.dart' as theme;
 
@@ -12,6 +14,21 @@ void main() async {
   await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  final db = FirebaseFirestore.instance;
+
+  news = NewsController();
+
+  DocumentReference docRef = db.collection('News').doc('Dg7DrZeQTs3la6QPxpNL');
+
+  await docRef.get()
+  .then((value) async {
+    Map data = {};
+    data = value.data() as Map<String, dynamic>;
+    news.setData(data, docRef);
+  });
+
+  await news.getJudgements();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent,systemNavigationBarColor: theme.backgroundColor));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -33,7 +50,7 @@ class _MainState extends State<Main> {
     return MaterialApp
     (
        debugShowCheckedModeBanner: false,
-        title: 'LifeHome Connect',
+        title: 'Debate',
         theme: ThemeData
         (
           scaffoldBackgroundColor: theme.backgroundColor

@@ -83,8 +83,12 @@ class CtaButton extends StatelessWidget {
 }
 
 Widget voteBar(int up, int down) {
-
-  double vote = down/up;
+  
+  double vote = 0;
+  if (up != 0)
+    {
+      vote = down/up;
+    }
 
   return Stack
   (
@@ -97,7 +101,7 @@ Widget voteBar(int up, int down) {
         decoration: BoxDecoration
         (
           borderRadius: BorderRadius.circular(4.0),
-          color: redColor,
+          color: greenColor,
         ),
       ),
       Container
@@ -107,7 +111,7 @@ Widget voteBar(int up, int down) {
         decoration: BoxDecoration
         (
           borderRadius: BorderRadius.only(topLeft: Radius.circular(4.0), bottomLeft: Radius.circular(4.0)),
-          color: greenColor,
+          color: redColor,
         ),
       ),
     ],
