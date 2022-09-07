@@ -61,6 +61,7 @@ flutter:
 
   assets:
     
+    - assets/logo_debate.png
     - assets/news_placeholder.png
     - assets/pp_placeholder.png
 

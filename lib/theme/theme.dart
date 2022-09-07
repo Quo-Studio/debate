@@ -16,6 +16,7 @@ Color backgroundColor = const Color(0xFFF9F9F9);
 Color primaryColor = const Color(0xFFEBEBEB);
 Color secondaryColor = const Color(0xFF848484);
 Color accentColor = const Color(0xFFFFFFFF);
+Color blueColor = const Color(0xFFA2C0D1);
 Color greenColor = const Color(0xFFA5D79D);
 Color redColor = const Color(0xFFD77777);
 
@@ -23,8 +24,8 @@ Color redColor = const Color(0xFFD77777);
 // TextStyle
 
 TextStyle textStyleContent = const TextStyle(
-  fontFamily: 'OpenSans',
-  // fontFamily: 'Montserrat',
+  // fontFamily: 'OpenSans',
+  fontFamily: 'Montserrat',
   fontSize: 12,
   color: Color(0xFF494949),
 );
@@ -59,6 +60,18 @@ TextStyle textJudgementContent = const TextStyle(
   fontSize: 10,
   color: Color(0xFF393939),
 );
+TextStyle textAuthInputLabel = const TextStyle(
+  fontFamily: 'Montserrat',
+  fontWeight: FontWeight.w600,
+  fontSize: 14,
+  color: Color.fromARGB(255, 104, 104, 104),
+);
+TextStyle textAuthButton = const TextStyle(
+  fontFamily: 'Montserrat',
+  fontWeight: FontWeight.w700,
+  fontSize: 18,
+  color: Color.fromARGB(255, 255, 255, 255),
+);
 
 class CtaButton extends StatelessWidget {
   const CtaButton({ Key? key, required this.content, this.onPressed}) : super(key: key);
@@ -75,6 +88,28 @@ class CtaButton extends StatelessWidget {
       child: TextButton
       (
         style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(accentColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: bRadiusCTA))),
+        onPressed: onPressed,
+        child: Center(child: Text(content, style: textStyleContent)),
+      )
+    );   
+  }
+}
+
+class CtaButtonLogin extends StatelessWidget {
+  const CtaButtonLogin({ Key? key, required this.content, this.onPressed}) : super(key: key);
+
+  final String content;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox
+    (
+      width: respWidth * 0.8,
+      height: 35,
+      child: TextButton
+      (
+        style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(blueColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: bRadiusCTA))),
         onPressed: onPressed,
         child: Center(child: Text(content, style: textStyleContent)),
       )
