@@ -74,6 +74,23 @@ class NewsController {
     });
     
   }
+
+  Future addVote(Map<String, dynamic> data, String id, Map<String, dynamic> types) async {
+
+    final db = FirebaseFirestore.instance;
+
+    Map<String, dynamic> typesData = types;
+
+    typesData.forEach((key, value) {
+      typesData[key] = types[key] * 10;
+    });
+
+    await data['ref'].set(data, SetOptions(merge: true))
+    .then((value) async {
+      await  db.collection('User').doc(id).set(typesData, SetOptions(merge: true));
+    });
+    
+  }
   
 }
 

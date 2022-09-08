@@ -55,6 +55,12 @@ TextStyle textCommentProfile = const TextStyle(
   fontSize: 12,
   color: Color(0xFF7E7E7E),
 );
+TextStyle textCard = const TextStyle(
+  fontFamily: 'Montserrat',
+  fontWeight: FontWeight.w600,
+  fontSize: 12,
+  color: Color(0xFF282828),
+);
 TextStyle textJudgementContent = const TextStyle(
   fontFamily: 'Montserrat',
   fontWeight: FontWeight.w600,

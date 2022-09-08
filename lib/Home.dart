@@ -1,5 +1,7 @@
+import 'package:debate/news/news.dart';
 import 'package:debate/profile.dart';
 import 'package:debate/script/accountController.dart';
+import 'package:debate/script/newsController.dart';
 import 'package:flutter/material.dart';
 import 'package:debate/theme/theme.dart' as theme;
 
@@ -35,18 +37,22 @@ class Home extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: SizedBox(
+            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 40, left: 24),
-                  child: const Text(
+                  margin: const EdgeInsets.only(top: 40, left: 40),
+                  child: Text(
                     "Mes news aujourd'hui",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: theme.textNewsTitle,
                   ),
                 ),
-                modulesGrid(),
+                const SizedBox(height: 30),
+                Center(
+                  child: modulesGrid()
+                ),
+                const SizedBox(height: 40),
               ],
             ),
           ),
@@ -66,7 +72,13 @@ class Card extends StatefulWidget {
 class _CardState extends State<Card> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () async {
+        news.setData(widget.data, widget.data['ref']);
+        await news.getJudgements();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => News()));
+      },
+      child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -81,30 +93,35 @@ class _CardState extends State<Card> {
           ),
         ),
         height: 220,
-        width: 170,
+        width: theme.respWidth * 0.8 * 0.485,
         child: Column(
           children: [
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             SizedBox(
-                width: 140,
+                width: theme.respWidth * 0.8 * 0.485 * 0.9,
                 height: 90,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(3.0),
-                  child: Image.asset('assets/paysage.jpg', fit: BoxFit.fill),
+                  child: Image.network(widget.data['url_image'], fit: BoxFit.fill),
                 )),
             const SizedBox(
               height: 20,
             ),
-            const SizedBox(
-              width: 130,
+            SizedBox(
+              width: theme.respWidth * 0.8 * 0.485 * 0.9,
+              height: 100,
               child: Text(
-                'Climat, une menace pour la planète',
-                style: TextStyle(color: Colors.black, fontSize: 17),
+                widget.data['title'],
+                style: theme.textCard,
+                maxLines: 4,
+
+                overflow: TextOverflow.ellipsis,
               ),
             )
           ],
+        )
         ));
   }
 }
@@ -121,8 +138,8 @@ Widget modulesGrid() {
   Widget grid = SizedBox(
     width: theme.respWidth * 0.8,
     child: Wrap(
-      spacing: theme.respWidth * 0.8 * 0.04,
-      runSpacing: theme.respWidth * 0.8 * 0.04,
+      spacing: theme.respWidth * 0.8 * 0.03,
+      runSpacing: theme.respWidth * 0.8 * 0.03,
       children: modules,
     ),
   );

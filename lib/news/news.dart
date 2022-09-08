@@ -203,14 +203,6 @@ class _JudgementCardState extends State<JudgementCard> {
     return list;
   }
 
-  _upPressed() {
-
-  }
-
-  _downPressed() {
-
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -237,7 +229,7 @@ class _JudgementCardState extends State<JudgementCard> {
                           const SizedBox(width: 12,),
                           GestureDetector
                           (
-                            onTap: () {profilePopUp(context);},
+                            onTap: () {profilePopUp(context, widget.author_data as Map<String, dynamic>);},
                             child: Text(widget.author_data['surname'] + " " + widget.author_data['name'], style: theme.textCommentProfile,),
                           )
                         ],
@@ -252,9 +244,9 @@ class _JudgementCardState extends State<JudgementCard> {
                           (
                             children: 
                             [
-                              IconButton(onPressed: votePopUp(context, true), icon: Icon(Icons.arrow_upward, size: 20,)),
+                              IconButton(onPressed: voteYesPopUp(context, true, widget.data as Map<String, dynamic>, widget.author_data as Map<String, dynamic> ), icon: Icon(Icons.arrow_upward, size: 20,)),
                               Text((widget.data['upvotes'] - widget.data['downvotes']).toString(), style: theme.textNewsTitle),
-                              IconButton(onPressed: votePopUp(context, false), icon: Icon(Icons.arrow_downward, size: 20,)),
+                              IconButton(onPressed: voteYesPopUp(context, false , widget.data as Map<String, dynamic>, widget.author_data as Map<String, dynamic> ), icon: Icon(Icons.arrow_downward, size: 20,)),
                             ],
                           )
                           ),
@@ -314,7 +306,7 @@ class _CommentCardState extends State<CommentCard> {
             const SizedBox(width: 12,),
             GestureDetector
             (
-              onTap: () {profilePopUp(context);},
+              onTap: () {profilePopUp(context, widget.author_data as Map<String, dynamic>);},
               child: Text(widget.author_data['surname'] + " " + widget.author_data['name'], style: theme.textCommentProfile,),
             )
             

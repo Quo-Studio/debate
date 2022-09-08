@@ -27,19 +27,14 @@ void main() async {
 
   await db.collection("News").get().then((value) {
     for (var doc in value.docs) {
-      account.newsList.add(doc.data());
+      DocumentReference ref = db.collection("News").doc(doc.id);
+      final iter = <String, dynamic> {'ref' : ref};
+      Map<String, dynamic> data = {};
+      data = doc.data();
+      data.addEntries(iter.entries);
+      account.newsList.add(data);
     }
   });
-
-  DocumentReference docRef = db.collection('News').doc('Dg7DrZeQTs3la6QPxpNL');
-
-  await docRef.get().then((value) async {
-    Map data = {};
-    data = value.data() as Map<String, dynamic>;
-    news.setData(data, docRef);
-  });
-
-  await news.getJudgements();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -68,7 +63,7 @@ class _MainState extends State<Main> {
         home: Builder(
           builder: ((context) {
             return MediaQuery(
-              child: const News(),
+              child: const Home(),
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             );
           }),

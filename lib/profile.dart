@@ -1,7 +1,7 @@
 import 'package:debate/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-profilePopUp(context) {
+profilePopUp(context, Map<String, dynamic> data) {
   showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -12,17 +12,17 @@ profilePopUp(context) {
                 children: [
                   SizedBox(
                     width: respWidth * 0.11,
-                    child: Image.asset(
-                      'assets/profile.png',
+                    child: Image.network(
+                      data['profile_url'],
                       fit: BoxFit.fill,
                     ),
                   ),
                   SizedBox(
                     width: respWidth * 0.03,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     child: Text(
-                      'Guirao Mathias',
+                      data['name'] + " " + data['surname'],
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -38,7 +38,7 @@ profilePopUp(context) {
                 height: respHeight * 0.03,
               ),
               const Text(
-                'Inscrit depuis le 07/03/2022',
+                'Inscrit depuis le 08/09/2022',
                 textAlign: TextAlign.left,
               ),
               SizedBox(
@@ -56,9 +56,9 @@ profilePopUp(context) {
                     ],
                     borderRadius: BorderRadius.circular(10),
                     color: const Color.fromRGBO(189, 212, 255, 100)),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    '335',
+                    data['karma'],
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 27,
@@ -72,7 +72,7 @@ profilePopUp(context) {
               SizedBox(
                 width: respWidth * 0.5,
                 child: Text(
-                  'Toujours positif avec les autres',
+                  'Note de karma',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -91,9 +91,9 @@ profilePopUp(context) {
                     ],
                     borderRadius: BorderRadius.circular(10),
                     color: const Color.fromRGBO(171, 244, 187, 100)),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    '666',
+                    data['fiability'],
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 27,
@@ -107,7 +107,7 @@ profilePopUp(context) {
               SizedBox(
                 width: respWidth * 0.5,
                 child: Text(
-                  'Toujours positif avec les autres',
+                  'Note de fiabilité',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -126,9 +126,9 @@ profilePopUp(context) {
                     ],
                     borderRadius: BorderRadius.circular(10),
                     color: const Color.fromRGBO(236, 194, 255, 100)),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    '543',
+                    data['activity'],
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 27,
@@ -141,8 +141,8 @@ profilePopUp(context) {
               ),
               SizedBox(
                 width: respWidth * 0.5,
-                child: Text(
-                  'Toujours positif avec les autres',
+                child: Text( 
+                  'Note d\'activité',
                   textAlign: TextAlign.center,
                 ),
               ),
