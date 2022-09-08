@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:debate/script/accountController.dart';
 import 'package:flutter/material.dart';
 
 class NewsController {
@@ -53,6 +54,25 @@ class NewsController {
       data = value.data()!;
     });
     return data;
+  }
+
+   Future addJudgement(Map<String, dynamic> data, String content) async {
+
+    // modifier le doc
+    // ajouter un judgement à la collection
+    Map<String, dynamic> judgementData = {
+      'author_id' : account.user.email,
+      'content' : content,
+      'downvotes' : 0,
+      'upvotes' : 0,
+      'votesTypes' : {'karma' : 0, 'fiability' : 0}
+    };
+
+    await newsRef.set(data, SetOptions(merge: true))
+    .then((value)  async {
+      await newsRef.collection('Judgement').add(judgementData);
+    });
+    
   }
   
 }

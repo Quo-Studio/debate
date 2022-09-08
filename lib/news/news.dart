@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:debate/news/commentPop.dart';
+import 'package:debate/news/updownvotePop.dart';
 import 'package:debate/profile.dart';
+import 'package:debate/script/accountController.dart';
 import 'package:debate/script/newsController.dart';
 import 'package:flutter/material.dart';
 import 'package:debate/theme/theme.dart' as theme;
@@ -78,6 +82,17 @@ class _NewsState extends State<News> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomAppBar
+      (
+        elevation: 0,
+        color: Colors.transparent,
+          child: Row( mainAxisAlignment: MainAxisAlignment.center,children :[Padding(padding: EdgeInsets.only(bottom: 10), child: theme.JudgeButton
+          (
+            onPressed: () {
+              judgePopUp(context);
+            },
+          )) ]),
+      ),
     );
   }
 }
@@ -112,11 +127,7 @@ class _JudgementCardState extends State<JudgementCard> {
 
   @override
   void initState() {
-    news.getUserFromID(widget.data['author_id']).then((value) {
-      setState(() {
-        widget.author_data = value;
-      });
-    });
+    
     super.initState();
   }
 
@@ -128,6 +139,7 @@ class _JudgementCardState extends State<JudgementCard> {
     (
       context: context,
       builder: (BuildContext context) {
+        TextEditingController commentController = TextEditingController();
         return AlertDialog(
           title: Center(child: Text('Commentaires')),
           content: SizedBox
@@ -142,6 +154,36 @@ class _JudgementCardState extends State<JudgementCard> {
               ),
             ),
           ),
+          actions: 
+          [
+            Column
+            (
+              children: 
+              [
+                TextFormField
+                (
+                  controller: commentController,
+                  maxLines: 4,
+                  decoration: InputDecoration(filled: true, fillColor: Color.fromARGB(255, 255, 255, 255), hintText: 'Mon comm..', hintStyle: TextStyle(color: Color.fromARGB(133, 72, 72, 72)), enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 218, 218, 218)),borderRadius: BorderRadius.circular(6.0),))
+                ),
+                const SizedBox(height: 8),
+                theme.CtaButtonLogin(content: "Envoyer", onPressed: () async {
+                  Map<String, dynamic> dataToSet = {
+                    'author_id' : account.user.email,
+                    'content' : commentController.text,
+                    'date' : Timestamp.now().millisecondsSinceEpoch
+                  };
+                  DocumentReference ref = widget.data['ref'] as DocumentReference;
+                  await ref.collection('Comments').add(dataToSet)
+                  .then((value) {
+                    Navigator.pop(context);
+                  });
+                },),
+                const SizedBox(height: 15),
+
+              ],
+            )
+          ],
         );
       }
     );
@@ -161,8 +203,23 @@ class _JudgementCardState extends State<JudgementCard> {
     return list;
   }
 
+  _upPressed() {
+
+  }
+
+  _downPressed() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    news.getUserFromID(widget.data['author_id']).then((value) {
+      setState(() {
+        widget.author_data = value;
+      });
+    });
+
     return SizedBox
                 (
                   width: theme.respWidth * 0.8,
@@ -195,9 +252,9 @@ class _JudgementCardState extends State<JudgementCard> {
                           (
                             children: 
                             [
-                              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_upward, size: 20,)),
+                              IconButton(onPressed: votePopUp(context, true), icon: Icon(Icons.arrow_upward, size: 20,)),
                               Text((widget.data['upvotes'] - widget.data['downvotes']).toString(), style: theme.textNewsTitle),
-                              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_downward, size: 20,)),
+                              IconButton(onPressed: votePopUp(context, false), icon: Icon(Icons.arrow_downward, size: 20,)),
                             ],
                           )
                           ),

@@ -7,6 +7,7 @@ double respHeight = 0.0;
 
 BorderRadius bRadius = BorderRadius.circular(2.0);
 BorderRadius bRadiusCTA = BorderRadius.circular(4.0);
+BorderRadius bRadiusJudge = BorderRadius.circular(300.0);
 BorderRadius bRadiusCard = BorderRadius.circular(11.0);
 
 
@@ -72,6 +73,12 @@ TextStyle textAuthButton = const TextStyle(
   fontSize: 18,
   color: Color.fromARGB(255, 255, 255, 255),
 );
+TextStyle textStyleColoredButton = const TextStyle(
+  fontFamily: 'Montserrat',
+  fontWeight: FontWeight.w700,
+  fontSize: 14,
+  color: Color.fromARGB(255, 255, 255, 255),
+);
 
 class CtaButton extends StatelessWidget {
   const CtaButton({ Key? key, required this.content, this.onPressed}) : super(key: key);
@@ -111,7 +118,67 @@ class CtaButtonLogin extends StatelessWidget {
       (
         style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(blueColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: bRadiusCTA))),
         onPressed: onPressed,
-        child: Center(child: Text(content, style: textStyleContent)),
+        child: Center(child: Text(content, style: textStyleColoredButton)),
+      )
+    );   
+  }
+}
+
+class JudgeButton extends StatelessWidget {
+  const JudgeButton({ Key? key,this.onPressed}) : super(key: key);
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox
+    (
+      width: respWidth * 0.8,
+      height: 45,
+      child: TextButton
+      (
+        style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(blueColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: bRadiusJudge))),
+        onPressed: onPressed,
+        child: Center(child: Text("Juger", style: textStyleColoredButton)),
+      )
+    );   
+  }
+}
+
+class YesButton extends StatelessWidget {
+  const YesButton({ Key? key,this.onPressed}) : super(key: key);
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox
+    (
+      width: 45,
+      height: 45,
+      child: TextButton
+      (
+        style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(greenColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: bRadiusJudge))),
+        onPressed: onPressed,
+        child: Center(child: Icon(Icons.radio_button_checked)),
+      )
+    );   
+  }
+}
+
+class NoButton extends StatelessWidget {
+  const NoButton({ Key? key,this.onPressed}) : super(key: key);
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox
+    (
+      width: 45,
+      height: 45,
+      child: TextButton
+      (
+        style: ButtonStyle( elevation: MaterialStateProperty.all(6.0),padding: MaterialStateProperty.all(EdgeInsets.zero), backgroundColor: MaterialStateProperty.all(redColor), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: bRadiusJudge))),
+        onPressed: onPressed,
+        child: Center(child: Icon(Icons.radio_button_unchecked)),
       )
     );   
   }
